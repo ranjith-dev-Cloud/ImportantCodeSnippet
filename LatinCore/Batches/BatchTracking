@@ -1,1 +1,10 @@
+/*
+  Get Batch Details from Books
+*/
 
+fetchBatchBooks = invokeurl
+			[
+				url :"https://inventory.zoho.com/api/v1/items/batches?item_id=" + BookID + "&organization_id=701437914"
+				type :GET
+				connection:"zohoinventoryconnection"
+			];
