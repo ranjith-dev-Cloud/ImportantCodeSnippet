@@ -1,0 +1,12 @@
+/*
+This snippet is used for get Inventory Summary which includes qty to be shipped,qty to be Received, qty to be invoiced and 
+qty to be billed
+*/
+
+
+quantityResponse = invokeurl
+	[
+		url :"https://inventory.zoho.com/api/v1/items/" + <Item_ID> + "/inventorysummary?organization_id=<Organisation_ID>"
+		type :GET
+		connection:"newinventory"
+	];
