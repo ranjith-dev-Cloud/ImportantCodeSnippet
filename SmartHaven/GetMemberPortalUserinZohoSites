@@ -1,0 +1,16 @@
+/*
+Get Member Portal User in zoho sites
+*/
+
+  url = "https://sites.zoho.com/zs-site/api/v1/portals/users/invite?type=1";
+	getAccessToken = thisapp.OfficeData.generateAccessTokenAnalytics();
+	headers_map = Map();
+	headers_map.put("X-Site-Id","802409020");
+	headers_map.put("Authorization","Zoho-oauthtoken " + getAccessToken);
+	response = invokeurl
+	[
+		url :url
+		type :GET
+		headers:headers_map
+	];
+	info response.get("invite_list").get("invites").size();
