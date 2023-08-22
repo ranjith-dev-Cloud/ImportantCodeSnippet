@@ -1,0 +1,52 @@
+/*
+Gave Zoho Workdrive Folder Access to User
+PreRequisite - You Have to know the folder or file ID which you are try to gave Access
+*/
+
+		fetchMemberPortal = Member_Portal_Users[ID == recID];
+		fetchMonthlyFolderID = Workdrive_Folder_URL[ID != null && Types == "Monthly Data Access" || Types == "Weekly Data Access"];
+		// 	info fetchMonthlyFolderID;
+		for each  members in fetchMemberPortal
+		{
+			for each  month in fetchMonthlyFolderID
+			{
+				// 			info "month " + month.Types;
+				header = Map();
+				// 	getAccessToken = thisapp.Workdrive.generateAccessTokenWorkdrive();
+				// 	header.put("Authorization","Zoho-oauthtoken " + getAccessToken);
+				header.put("Accept","application/vnd.api+json");
+				data = Map();
+				data_param1 = Map();
+				att_param1 = Map();
+				att_param1.put("resource_id",month.Folder_ID);
+				att_param1.put("shared_type","personal");
+				att_param1.put("email_id",members.Email);
+				att_param1.put("role_id","6");
+				att_param1.put("send_notification_mail","false");
+				data_param1.put("attributes",att_param1);
+				data_param1.put("type","permissions");
+				data.put("data",data_param1);
+				response = invokeurl
+				[
+					url :"https://www.zohoapis.com/workdrive/api/v1/permissions"
+					type :POST
+					parameters:data.toString()
+					headers:header
+					connection:"oauth"
+				];
+				// 			info response;
+				if(month.Types == "Monthly Data Access")
+				{
+					members.Monthly_Data_Access=response.get("data").get("id");
+				}
+				else if(month.Types == "Weekly Data Access")
+				{
+					members.Weekly_Data_Access=response.get("data").get("id");
+				}
+			}
+			AccessDataIDCheck = Member_Portal_Users[ID == members.ID && Monthly_Data_Access != null && Weekly_Data_Access != null];
+			if(AccessDataIDCheck.count() == 1)
+			{
+				members.Access_Status="Access Given";
+			}
+		}
