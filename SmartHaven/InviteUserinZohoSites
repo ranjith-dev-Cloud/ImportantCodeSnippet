@@ -1,0 +1,18 @@
+url = "https://sites.zoho.com/zs-site/api/v1/portals/users/invite";
+	getAccessToken = thisapp.OfficeData.generateAccessTokenAnalytics();
+	invite_email_ids = List();
+	invite_email_ids.add("ananth@cloudlion.org");
+	payload = Map();
+	payload.put("email_arr",invite_email_ids);
+	payload.put("groups",List());
+	headers_map = Map();
+	headers_map.put("X-Site-Id","802409020");
+	headers_map.put("Authorization","Zoho-oauthtoken " + getAccessToken);
+	response = invokeurl
+	[
+		url :url
+		type :POST
+		parameters:payload.toString()
+		headers:headers_map
+	];
+	info response;
