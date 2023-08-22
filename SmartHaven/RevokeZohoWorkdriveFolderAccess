@@ -1,0 +1,37 @@
+/*
+Revoke Zoho Workdrive Folder Access
+*/
+
+	fetchmemberPortal = Member_Portal_Users[ID == recID];
+		header = Map();
+		header.put("Accept","application/vnd.api+json");
+		// param = Map(); 
+		// // param.put("permission_id","38p5f536c1c61548340a798e696d3b56e290c");
+		// param.put("permission_id","5tw351eea273b74e145ba92c38fecd2121823-773148774");
+		//monthly
+		if(fetchmemberPortal.Monthly_Data_Access != null)
+		{
+			response = invokeurl
+			[
+				url :"https://www.zohoapis.com/workdrive/api/v1/permissions/" + fetchmemberPortal.Monthly_Data_Access
+				type :Delete
+				headers:header
+				connection:"oauth"
+			];
+			// 	info "res " + response;
+			fetchmemberPortal.Monthly_Data_Access="";
+		}
+		//weekly
+		if(fetchmemberPortal.Weekly_Data_Access != null)
+		{
+			response = invokeurl
+			[
+				url :"https://www.zohoapis.com/workdrive/api/v1/permissions/" + fetchmemberPortal.Weekly_Data_Access
+				type :Delete
+				headers:header
+				connection:"oauth"
+			];
+			// 	info "res " + response;
+			fetchmemberPortal.Weekly_Data_Access="";
+			fetchmemberPortal.Access_Status="Revoked";
+		}
